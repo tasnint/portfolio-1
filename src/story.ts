@@ -39,7 +39,8 @@ export type Slide = {
   resumeLink?: boolean
 }
 
-export const RESUME_URL = '/Tanisha-Tasnin_Resume.pdf'
+// BASE_URL is the site's sub-path when deployed (e.g. /portfolio-1/ on GitHub Pages).
+export const RESUME_URL = `${import.meta.env.BASE_URL}Tanisha-Tasnin_Resume.pdf`
 
 const clouds = (...list: [number, number, number, number][]): Box[] =>
   list.map(([x, y, w, h]) => ({ x, y, w, h }))
