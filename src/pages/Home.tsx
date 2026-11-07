@@ -62,11 +62,34 @@ const NOTES: HeroNote[] = [
   },
 ]
 
+// The intro plays once per visit; coming back to home shows the finished page.
+const INTRO_KEY = 'home-intro-played'
+let introPlayed = false
+
+function introAlreadyPlayed() {
+  if (introPlayed) return true
+  try {
+    return sessionStorage.getItem(INTRO_KEY) === '1'
+  } catch {
+    return false
+  }
+}
+
+function markIntroPlayed() {
+  introPlayed = true
+  try {
+    sessionStorage.setItem(INTRO_KEY, '1')
+  } catch {
+    // Storage blocked (private mode etc.): the in-memory flag still covers this visit.
+  }
+}
+
 export default function Home() {
-  const [typed, setTyped] = useState(0)
+  const [skipIntro] = useState(introAlreadyPlayed)
+  const [typed, setTyped] = useState(skipIntro ? FULL.length : 0)
   // 0 = typing, 1 = scribble drawing, 2 = photo, notes and socials in.
-  const [phase, setPhase] = useState(0)
-  const [paint, setPaint] = useState(false)
+  const [phase, setPhase] = useState(skipIntro ? 2 : 0)
+  const [paint, setPaint] = useState(skipIntro)
   const timers = useRef<number[]>([])
 
   // Schedules the whole intro: typing, scribble, photo + notes, then the paint sweep.
@@ -90,15 +113,17 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
+    if (skipIntro) return
+    markIntroPlayed()
     run()
     const pending = timers
     return () => pending.current.forEach(clearTimeout)
-  }, [run])
+  }, [run, skipIntro])
 
   const doneTyping = typed >= FULL.length
 
   return (
-    <main className="hero">
+    <main className={`hero ${skipIntro ? 'hero-static' : ''}`}>
       <div className="hero-paint-layer" aria-hidden="true">
         {paint && (
           <div className="paint">
