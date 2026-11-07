@@ -95,13 +95,6 @@ export default function Home() {
     return () => pending.current.forEach(clearTimeout)
   }, [run])
 
-  const replay = () => {
-    setTyped(0)
-    setPhase(0)
-    setPaint(false)
-    run()
-  }
-
   const doneTyping = typed >= FULL.length
 
   return (
@@ -164,14 +157,6 @@ export default function Home() {
       </div>
 
       {phase >= 2 && <Socials animated className="hero-socials" />}
-
-      <button type="button" className="replay-button" onClick={replay}>
-        <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M3 12a9 9 0 1 0 3-6.7" />
-          <path d="M3 4v5h5" />
-        </svg>
-        Replay intro
-      </button>
     </main>
   )
 }
