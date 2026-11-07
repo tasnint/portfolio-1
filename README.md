@@ -31,4 +31,13 @@ npm run dev
 | Home page sticky notes | `src/pages/Home.tsx` |
 | Resume PDF | `public/Tanisha-Tasnin_Resume.pdf` |
 
-Pushing to `main` redeploys the site to https://tasnint.github.io/portfolio-1/.
+## Deploying
+
+The site is served by GitHub Pages from the `gh-pages` branch, which holds the built `dist/` folder.
+
+- `npm run deploy` builds the site and publishes it to https://tasnint.github.io/portfolio-1/.
+- To deploy automatically on every push to `main`, enable the repo's hook once per clone:
+
+  ```bash
+  git config core.hooksPath .githooks
+  ```

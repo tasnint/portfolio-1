@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Redeploys the site whenever main is pushed. Enable once per clone with:
+#   git config core.hooksPath .githooks
+while read -r _local_ref _local_sha remote_ref _remote_sha; do
+  if [ "$remote_ref" = "refs/heads/main" ]; then
+    "$(git rev-parse --show-toplevel)/scripts/deploy.sh" || echo "Deploy failed; run npm run deploy to retry." >&2
+  fi
+done
+exit 0
