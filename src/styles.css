@@ -104,16 +104,39 @@ button {
 .note {
   position: relative;
   transform: rotate(var(--tilt));
+}
+
+/* A paper-shaped layer behind the note that carries the 3D shadow, so the text stays crisp. */
+.note-shadow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
   filter: drop-shadow(0 1px 1px rgba(var(--sh), 0.18)) drop-shadow(0 6px 6px rgba(var(--sh), 0.12))
     drop-shadow(0 18px 18px rgba(var(--sh), 0.16));
 }
 
+.note-shape {
+  width: 100%;
+  height: 100%;
+  background: var(--p2);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--fold)), calc(100% - var(--fold)) 100%, 0 100%);
+}
+
 .note-paper {
+  position: relative;
+  z-index: 1;
   background: linear-gradient(180deg, var(--p1) 0%, var(--p2) 45%, var(--p3) 100%);
   clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--fold)), calc(100% - var(--fold)) 100%, 0 100%);
 }
 
+/* Nanum Pen is a thin font; a hairline stroke makes the handwriting on notes easier to read. */
+.note-paper .pen {
+  -webkit-text-stroke: 0.3px currentColor;
+}
+
 .note-fold {
+  z-index: 1;
   position: absolute;
   right: 0;
   bottom: 0;
@@ -882,6 +905,7 @@ button {
 }
 
 .pin {
+  z-index: 2;
   position: absolute;
   top: 10px;
   left: calc(50% - 12px);

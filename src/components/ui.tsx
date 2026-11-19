@@ -40,6 +40,10 @@ export function StickyNote({ color, tilt, fold = 40, className = '', paperClassN
   })
   return (
     <div className={`note ${className}`} style={style}>
+      {/* The shadow lives on its own layer: a filter on the text itself would blur it. */}
+      <div className="note-shadow" aria-hidden="true">
+        <div className="note-shape" />
+      </div>
       <div className={`note-paper ${paperClassName}`}>{children}</div>
       <div className="note-fold" aria-hidden="true" />
       {extra}
